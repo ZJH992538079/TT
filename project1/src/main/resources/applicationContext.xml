@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- Spring MVC -->
+	<!--开启MVC功能-->
+	<mvc:annotation-driven/>
+	<!-- 使用默认的静态资源处理Servlet处理静态资源(涉及spring-mvc.xml, web.xml) -->
+	<mvc:default-servlet-handler/>
+	<!-- 由于web.xml中设置SpringMVC拦截所有请求,于是在读取静态资源文件的时候就会读不到,这里配置不通过"控制器的请求" -->
+	<!--<mvc:resources mapping="/static/*" location="/static/"/>-->
+	<!-- end MVC -->
+
+	<!-- 开启AOP切面功能 -->
+	<aop:aspectj-autoproxy/>
+
+	<!--使用自动包扫描,将所有该注册为Bean的(Controller等)都变成Bean,避免手动写,简单写法,使之扫描整个项目的包-->
+	<context:component-scan base-package="cn.laeni.project1"/>
+
+	<!-- 引入配置文件 -->
+	<bean id="propertyConfigurer"
+		  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:config.properties"/>
+	</bean>
+
+	<!-- 引入MyBatis配置文件 -->
+	<import resource="classpath:applicationContext-mybatis.xml"/>
+	<!-- 引入shiro配置文件(可以直接在此文件配置,但是为了结构清晰可以分开写) -->
+	<!--<import resource="classpath:applicationContext-shiro.xml"/>-->
+	<!-- 引入自定义配置 -->
+	<import resource="applicationContext-other.xml"/>
+
+	<!-- 视图解析器: JSP视图解析器(默认视图解析器),现在配合FreeMarker一起使用 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+
+	<!-- MVC文件上传 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 指定上传的文件的最大值(单位字节,1KB=1024字节),-1表示不受限制 -->
+		<property name="maxUploadSize" value="-1"/>
+	</bean>
+
+</beans>

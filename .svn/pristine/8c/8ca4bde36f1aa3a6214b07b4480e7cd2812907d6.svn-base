@@ -1,0 +1,21 @@
+server:
+  port: 8787
+
+###########################################################################################
+## FREEMARKER (FreeMarkerAutoConfiguration)
+###########################################################################################
+spring:
+  freemarker:
+    cache: true    #关闭缓存，及时刷新，上线生产环境需要修改为true
+    allow-request-override: false
+    check-template-location: true
+    charset: UTF-8
+    content-type: text/html; charset=utf-8
+    #DEFAULT_TEMPLATE_LOADER_PATH
+#    prefix: templates      #前缀(templates)
+#    suffix: .ftl  #后缀(ftl)
+#    check-template-location=true
+    expose-request-attributes: true
+    expose-session-attributes: true
+    request-context-attribute: request
+    template-loader-path: classpath:/templates   #设定ftl文件路径(可以以数组形式设置多个)

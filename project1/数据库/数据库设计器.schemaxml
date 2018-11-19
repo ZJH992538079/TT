@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="utf8" collation="utf8_general_ci">project1</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="forum" view="colnames">
+<left>294</left>
+<top>26</top>
+<width>128</width>
+<height>180</height>
+<sql_create_table>CREATE TABLE `forum` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '帖子ID',
+  `title` varchar(32) DEFAULT NULL COMMENT '帖子标题',
+  `cover` varchar(64) DEFAULT NULL COMMENT '封面图',
+  `user_id` char(16) NOT NULL COMMENT '用户ID',
+  `type_id` int(11) NOT NULL COMMENT '帖子类型ID',
+  `value` text COMMENT '帖子内容',
+  PRIMARY KEY (`id`),
+  KEY `type_id` (`type_id`),
+  CONSTRAINT `forum_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `forum_type` (`type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='帖子'</sql_create_table>
+</table>
+<table name="forum_type" view="colnames">
+<left>482</left>
+<top>23</top>
+<width>110</width>
+<height>112</height>
+<sql_create_table>CREATE TABLE `forum_type` (
+  `type_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '帖子类型ID',
+  `type_name` varchar(8) DEFAULT NULL COMMENT '帖子类型名称',
+  PRIMARY KEY (`type_id`),
+  KEY `type_id` (`type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="comment" view="colnames">
+<left>60</left>
+<top>40</top>
+<width>185</width>
+<height>146</height>
+<sql_create_table>CREATE TABLE `comment` (
+  `comment_id` char(128) DEFAULT NULL COMMENT '评论id',
+  `forum_id` int(11) DEFAULT NULL COMMENT '被评论的帖子ID',
+  `user_id` char(16) DEFAULT NULL COMMENT '用户ID',
+  `comment_value` text COMMENT '评论内容',
+  KEY `forum_id` (`forum_id`),
+  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`forum_id`) REFERENCES `forum` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>

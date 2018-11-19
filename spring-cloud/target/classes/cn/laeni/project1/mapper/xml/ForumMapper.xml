@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.laeni.project1.mapper.ForumMapper">
+	<resultMap id="BaseResultMap" type="cn.laeni.project1.entity.Forum">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="cover" property="cover" jdbcType="VARCHAR"/>
+		<result column="user_id" property="userId" jdbcType="CHAR"/>
+		<result column="type_id" property="typeId" jdbcType="INTEGER"/>
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="cn.laeni.project1.entity.Forum" extends="BaseResultMap">
+		<result column="value" property="value" jdbcType="LONGVARCHAR"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+    id, title, cover, user_id, type_id
+  </sql>
+	<sql id="Blob_Column_List">
+    value
+  </sql>
+	<insert id="insertSelective" parameterType="cn.laeni.project1.entity.Forum">
+		insert into forum
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="cover != null">
+				cover,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="typeId != null">
+				type_id,
+			</if>
+			<if test="value != null">
+				value,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="cover != null">
+				#{cover,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=CHAR},
+			</if>
+			<if test="typeId != null">
+				#{typeId,jdbcType=INTEGER},
+			</if>
+			<if test="value != null">
+				#{value,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="cn.laeni.project1.entity.Forum">
+		update forum
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="cover != null">
+				cover = #{cover,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=CHAR},
+			</if>
+			<if test="typeId != null">
+				type_id = #{typeId,jdbcType=INTEGER},
+			</if>
+			<if test="value != null">
+				value = #{value,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>
